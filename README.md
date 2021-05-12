@@ -8,4 +8,4 @@ Doodle jump like game, web game based on html css and javascript.
 
 ## Contributeurs
 
-@AndyGuillaume , @pthavarasa
+@Andy-d-g , @pthavarasa
