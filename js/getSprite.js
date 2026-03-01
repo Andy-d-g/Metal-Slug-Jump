@@ -17,6 +17,18 @@ const repositoryArray = [
 let mapSpritesheet = new Map();
 let i = 0;
 
+// Helper to handle paths on GitHub Pages vs Local
+// Using a unique name to avoid conflict with other scripts
+const getSpritePath = (path) => {
+  // Check if we are hosted on GitHub Pages
+  if (window.location.hostname.includes("github.io")) {
+    // Clean path if it starts with ./
+    const cleanPath = path.startsWith("./") ? path.slice(2) : path;
+    return "/Metal-Slug-Jump/" + cleanPath;
+  }
+  return path;
+};
+
 /* Recupere les sprites d'un fichier puis les place dans l'array global */
 function loadFile() {
   if (this.status == 200) {
@@ -24,8 +36,8 @@ function loadFile() {
     arraySprite = [];
     json = JSON.parse(this.responseText);
     img = new Image();
-    // Updated path to be relative to index.html (img/...) instead of ./img/...
-    img.src = "img/" + repositoryArray[i] + "/spritesheet.png";
+    // Use dynamic path
+    img.src = getSpritePath("img/" + repositoryArray[i] + "/spritesheet.png");
     img.onload = () => {
       let canvas, context, canvas2, context2;
       let w, h, x, y;
@@ -79,8 +91,8 @@ const getAllSprite = () => {
     let xobj = new XMLHttpRequest();
     xobj.onreadystatechange = loadFile;
     xobj.overrideMimeType("application/json");
-    // Updated path to be relative to index.html (img/...) instead of ./img/...
-    path = "img/" + repository + "/spritesheet.json";
+    // Use dynamic path
+    path = getSpritePath("img/" + repository + "/spritesheet.json");
     /*** Remettre en asynchrone pour + de performance ***/
     xobj.open("GET", path, false);
     xobj.send();

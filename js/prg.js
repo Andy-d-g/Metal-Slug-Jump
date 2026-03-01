@@ -1,13 +1,24 @@
 const cnv = document.getElementById("myCanvas");
 const ctx = cnv.getContext("2d");
 
+// Helper to handle paths on GitHub Pages vs Local
+const getAssetPath = (path) => {
+  // Check if we are hosted on GitHub Pages
+  if (window.location.hostname.includes("github.io")) {
+    // Clean path if it starts with ./
+    const cleanPath = path.startsWith("./") ? path.slice(2) : path;
+    return "/Metal-Slug-Jump/" + cleanPath;
+  }
+  return path;
+};
+
 const BACKGROUND = new Image();
-BACKGROUND.src = "img/bck.png";
+BACKGROUND.src = getAssetPath("img/bck.png");
 
 const PLAY_BUTTON = new Image();
-PLAY_BUTTON.src = "img/play-on.png";
+PLAY_BUTTON.src = getAssetPath("img/play-on.png");
 
-let audio = new Audio("song/background-song.mp3");
+let audio = new Audio(getAssetPath("song/background-song.mp3"));
 
 const APESANTEUR = 2;
 const MAX_SPEED = 15 * APESANTEUR;
@@ -206,7 +217,7 @@ const update = () => {
       monsterArray = [];
       audio.pause();
       audio.currentTime = 0;
-      audio = new Audio("song/background-song.mp3");
+      audio = new Audio(getAssetPath("song/background-song.mp3"));
       score = 0;
       perso = new Character(
         Math.floor(cnv.width / 2),
@@ -238,7 +249,7 @@ const update = () => {
         /* Change la musique */
         audio.pause();
         audio.currentTime = 0;
-        audio = new Audio("song/death-song.mp3");
+        audio = new Audio(getAssetPath("song/death-song.mp3"));
         audio.play().catch((err) => console.error("Death audio failed:", err));
       }
       updateAffichagePlatform(5);
